@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="diffblue-copilot-tests" />
+        <module name="springboot-h2-example" />
+        <module name="junit4-vs-junit5" />
+        <module name="user-service-mock-demo" />
+        <module name="layered-tests-demo" />
+        <module name="coverage-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="17" />
+      <module name="junit4-example" target="21" />
+      <module name="junit5-example" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="demo" options="-parameters" />
+      <module name="layered-tests-demo" options="" />
+    </option>
+  </component>
+</project>
