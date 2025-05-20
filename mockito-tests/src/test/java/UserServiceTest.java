@@ -124,7 +124,8 @@ class UserServiceTest {
         // does not use this stub but no exception thrown
         service.saveUser(new User(2, "X"));
     }
-// Should fail as we didnt use lenient
+
+    // Should fail as we didnt use lenient
     @Test
     void testWithoutLenientMock() {
         when(repo.getUsername(anyInt())).thenReturn("Unused");
