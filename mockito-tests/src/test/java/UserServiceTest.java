@@ -32,17 +32,17 @@ class UserServiceTest {
 
     @Test
     void testGetUsername_withInjectedMock() {
-        when(repo.getUsername(1)).thenReturn("Alice");
-        String result = service.getUsername(1);
+        when(repo.getUsername(2)).thenReturn("Alice");
+        String result = service.getUsername(2);
         assertEquals("Alice", result);
     }
 
     @Test
     void testGetUsername_withHardcodedMock() {
         UserRepository mockRepo = mock(UserRepository.class);
-        when(mockRepo.getUsername(1)).thenReturn("Alice");
+        when(mockRepo.getUsername(2)).thenReturn("Alice");
         UserService manualService = new UserService(mockRepo);
-        assertEquals("Alice", manualService.getUsername(1));
+        assertEquals("Alice", manualService.getUsername(2));
     }
 
     @Test
@@ -109,13 +109,26 @@ class UserServiceTest {
     }
 
     @Test
-    void testResetMock() {
-        when(repo.getUsername(1)).thenReturn("Alice");
-        assertEquals("Alice", service.getUsername(1));
+    void testResetMockIsRequired() {
+        // Initial stubbing
+        when(repo.getUsername(2)).thenReturn("Alice");
 
+        // Call method and verify interaction
+        assertEquals("Alice", service.getUsername(2));
+        verify(repo).getUsername(2);
+
+        // Now, reset the mock to clear both stubbing and verification history
         reset(repo);
-        when(repo.getUsername(1)).thenReturn("Bob");
-        assertEquals("Bob", service.getUsername(1));
+
+        // Without reset, the following verifyNoMoreInteractions will FAIL
+        verifyNoMoreInteractions(repo); // ✅ Passes because reset cleared previous calls
+
+        // Re-stub with a new value after reset
+        when(repo.getUsername(2)).thenReturn("Bob");
+        assertEquals("Bob", service.getUsername(2));
+
+        // And verify again
+        verify(repo).getUsername(2);
     }
 
     @Test

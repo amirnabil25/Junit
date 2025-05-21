@@ -1,10 +1,18 @@
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.TestWatcher;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+//@ExtendWith(org.junit.jupiter.api.extension.Extension.class)
 class ExampleTestJunitFiveTest {
+
 
     // JUnit 5 uses @Test annotation from 'org.junit.jupiter.api'
     @org.junit.jupiter.api.Test
@@ -51,6 +59,34 @@ class ExampleTestJunitFiveTest {
         org.junit.jupiter.api.Assertions.assertTrue(number > 0);
     }
 
+
+    static class CustomObjectTest {
+
+        static class User {
+            String name;
+            int age;
+
+            User(String name, int age) {
+                this.name = name;
+                this.age = age;
+            }
+        }
+
+
+    }
+    static Stream<Arguments> userProvider() {
+        return Stream.of(
+                Arguments.of(new CustomObjectTest.User("Alice", 30)),
+                Arguments.of(new CustomObjectTest.User("Bob", 25))
+        );
+    }
+    @org.junit.jupiter.params.ParameterizedTest
+    @MethodSource("userProvider")
+    void testWithObjects(CustomObjectTest.User user) {
+        Assertions.assertNotNull(user.name);
+        Assertions.assertTrue(user.age > 0);
+    }
+
     @org.junit.jupiter.api.TestFactory
     Stream<org.junit.jupiter.api.DynamicTest> dynamicTests() {
         return Stream.of(
@@ -67,7 +103,7 @@ class ExampleTestJunitFiveTest {
     }
 
     @org.junit.jupiter.api.Test
-    @org.junit.jupiter.api.Timeout(2) // fails if takes longer than 2 seconds
+    @org.junit.jupiter.api.Timeout(value = 2, unit = TimeUnit.SECONDS) // fails if takes longer than 2 seconds
     void testWithTimeout() throws InterruptedException {
         Thread.sleep(1000);
     }
@@ -82,8 +118,18 @@ class ExampleTestJunitFiveTest {
     @org.junit.jupiter.api.Test
     @org.junit.jupiter.api.Tag("fast")
     void taggedTest() {
+        System.out.println("taggedTest1");
+
         org.junit.jupiter.api.Assertions.assertTrue(true);
     }
+
+    @org.junit.jupiter.api.Test
+    @org.junit.jupiter.api.Tag("fast")
+    void taggedTest2() {
+        System.out.println("taggedTest2");
+        org.junit.jupiter.api.Assertions.assertTrue(true);
+    }
+
 
 
     @org.junit.jupiter.api.Test

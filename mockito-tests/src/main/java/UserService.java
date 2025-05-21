@@ -8,6 +8,8 @@ class UserService {
     }
 
     public String getUsername(int id) {
+        if (id == 1) throw new RuntimeException("Error");
+//        id++;
         return repo.getUsername(id);
     }
 

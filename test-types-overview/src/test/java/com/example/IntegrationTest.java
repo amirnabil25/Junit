@@ -23,7 +23,7 @@ public class IntegrationTest {
         User savedUser = repository.save(user);
 
 
-        assertThat(user).isNotNull();
+        assertThat(savedUser).isNotNull();
         Assertions.assertNotNull(savedUser.getId());
     }
 }
